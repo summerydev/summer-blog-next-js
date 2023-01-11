@@ -2,12 +2,12 @@ import { Inter } from "@next/font/google";
 import { allPosts } from "contentlayer/generated";
 import { InferGetStaticPropsType } from "next";
 import Head from "next/head";
-import metadata from "../data/metadata";
-import PostList from "../components/PostList";
+import metadata from "../../data/metadata";
+import PostList from "../../components/PostList";
 
 const inter = Inter({ subsets: ["latin"] });
 
-export default function Home({
+export default function Posts({
   posts,
 }: InferGetStaticPropsType<typeof getStaticProps>) {
   const meta = {
