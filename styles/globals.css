@@ -42,6 +42,12 @@ li {
   list-style: circle;
 }
 
+hr{
+  height:1px;
+  background-color: #cacaca;
+  border : 0;
+}
+
 code[class*="language-"],
 pre[class*="language-"] {
   @apply bg-white dark:bg-zinc-900;
