@@ -11,10 +11,9 @@ export default function NavBar() {
   const [themeIcon, setThemeIcon] = useState("");
 
   useEffect(() => {
-    theme === "light" ? setThemeIcon("☾") : setThemeIcon("☀️");
+    theme === "light" ? setThemeIcon("🖤") : setThemeIcon("🤍");
   }, []);
 
-  const link = ""
   const clicked = "text-purple-400 font-bold";
 
   return (
@@ -39,7 +38,7 @@ export default function NavBar() {
           type="button"
           onClick={() => {
             setTheme(theme === "dark" ? "light" : "dark");
-            setThemeIcon(themeIcon === "☾" ? "☀️" : "☾");
+            setThemeIcon(themeIcon === "🖤" ? "🤍" : "🖤"); 
           }}
         >
           {themeIcon}
