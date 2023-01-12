@@ -1,9 +1,12 @@
 import Link from "next/link";
-import navLinks from "../data/navLinks";
+import { navLinks, profileLink } from "../data/navLinks";
 import { useEffect, useState } from "react";
 import { useTheme } from "next-themes";
+import { useRouter } from "next/router";
 
 export default function NavBar() {
+  const router = useRouter();
+
   const { theme, setTheme } = useTheme();
   const [themeIcon, setThemeIcon] = useState("");
 
@@ -11,24 +14,44 @@ export default function NavBar() {
     theme === "light" ? setThemeIcon("☾") : setThemeIcon("☀️");
   }, []);
 
+  const link = ""
+  const clicked = "text-purple-400 font-bold";
+
   return (
-    <nav>
+    <nav className="pt-10 pb-5">
       {navLinks.map((el) => (
-        <Link href={el.link} key={el.title}>
+        <Link
+          href={el.link}
+          key={el.title}
+          id={el.link}
+          className={`px-3
+          hover:text-indigo-400 
+          hover:font-semibold
+          hover:ease-in-out duration-300
+          ${router.asPath == el.link ? clicked : ""}
+          `}
+        >
           {el.title}
         </Link>
       ))}
-
-      <button
-        type="button"
-        onClick={() => {
-          setTheme(theme === "dark" ? "light" : "dark");
-          setThemeIcon(themeIcon === "☾" ? "☀️" : "☾");
-        }}
-        className={`float-right`}
-      >
-        {themeIcon}
-      </button>
+      <div className={`float-right`}>
+        <button
+          type="button"
+          onClick={() => {
+            setTheme(theme === "dark" ? "light" : "dark");
+            setThemeIcon(themeIcon === "☾" ? "☀️" : "☾");
+          }}
+        >
+          {themeIcon}
+        </button>
+        <Link
+          href={profileLink.link}
+          key={profileLink.title}
+          className={`px-3 ${router.asPath == profileLink.link ? clicked : ""}`}
+        >
+          {profileLink.title}
+        </Link>
+      </div>
     </nav>
   );
 }

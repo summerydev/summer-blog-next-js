@@ -22,7 +22,6 @@ const Container = (props) => {
             {meta.title}
           </span>
         </div>
-        <NavBar />
       </header>
       <main className={`w-full max-w-3xl`}>{props.children}</main>
     </div>
