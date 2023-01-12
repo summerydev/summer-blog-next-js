@@ -2,6 +2,24 @@
 @tailwind components;
 @tailwind utilities;
 
+body {
+  height: auto;
+  min-height: 100vh;
+}
+
+#wrapper {
+  height: auto;
+  min-height: calc(100vh - 50px);
+  padding-bottom: 50px;
+}
+
+footer {
+  height: 50px;
+  position: relative;
+  transform: translateY(-100%);
+  text-align: center;
+}
+
 .mdxstyle > * {
   margin: 20px 0;
 }
