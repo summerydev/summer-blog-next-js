@@ -2,6 +2,69 @@
 @tailwind components;
 @tailwind utilities;
 
+body {
+  height: auto;
+  min-height: 100vh;
+}
+
+#wrapper {
+  height: auto;
+  min-height: calc(100vh - 50px);
+  padding-bottom: 50px;
+}
+
+footer {
+  height: 50px;
+  position: relative;
+  transform: translateY(-100%);
+  text-align: center;
+}
+
+.mdxstyle > * {
+  margin: 20px 0;
+}
+.mdxstyle > * > * {
+  margin: 10px 0;
+}
+
+.mdxstyle a {
+  color: cornflowerblue;
+}
+
+.mdxstyle a:hover {
+  color: #bb8395;
+  text-decoration: underline;
+}
+
+.mdxstyle h1 {
+  font-size: 1.5em;
+  font-weight: 700;
+}
+
+.mdxstyle h2 {
+  font-size: 1.4em;
+  font-weight: 600;
+}
+
+.mdxstyle h3 {
+  font-size: 1.2em;
+  font-weight: 600;
+}
+
+ul {
+  padding-left: 30px;
+  list-style-position: outside;
+}
+
+li {
+  list-style: circle;
+}
+
+hr {
+  height: 1px;
+  background-color: #cacaca;
+  border: 0;
+}
 
 code[class*="language-"],
 pre[class*="language-"] {
@@ -40,6 +103,15 @@ code[class*="language-"] ::selection {
   background: #7c6f64; /* bg4 */
 }
 
+code {
+  @apply px-1 py-1 bg-stone-200 dark:bg-stone-600 text-red-600 dark:text-red-400;
+  border-radius: 7px;
+  /* padding: 3px 6px;
+  background-color: #e0e0e0;
+  color: #d95755;
+  border-radius: 5px; */
+}
+
 /* Code blocks */
 pre[class*="language-"] {
   padding: 1em;
@@ -56,19 +128,18 @@ pre[class*="language-"] {
 
 /* Inline code */
 :not(pre) > code[class*="language-"] {
-  padding: 0.1em;
   border-radius: 0.3em;
   font-size: 14px;
 }
 
-.token{
+.token {
   font-size: 14px;
 }
 
 .token.comment,
 .token.prolog,
 .token.cdata {
-  color:#808B97;
+  color: #808b97;
 }
 
 .token.delimiter,
@@ -77,7 +148,7 @@ pre[class*="language-"] {
 .token.selector,
 .token.important,
 .token.atrule {
-  color:   #ff7b79;
+  color: #ff7b79;
 }
 
 .token.operator,
@@ -127,17 +198,17 @@ pre[class*="language-"] {
 }
 
 .token.deleted {
-  background: #BB8395;
+  background: #bb8395;
 }
 
-.code-line{
+.code-line {
   padding-top: 2px;
   padding-bottom: 2px;
   font-size: 14px;
   @apply text-slate-900 dark:text-slate-200;
 }
 
-.rehype-code-title{
+.rehype-code-title {
   @apply text-slate-900 dark:text-slate-200;
   @apply bg-white dark:bg-zinc-900;
   @apply border border-solid border-sky-800 dark:border-sky-100;

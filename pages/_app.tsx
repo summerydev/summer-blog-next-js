@@ -8,8 +8,10 @@ export default function App({ Component, pageProps }: AppProps) {
   return (
     <>
       <ThemeProvider attribute="class">
-        <NavBar />
-        <Component {...pageProps} />
+        <div id="wrapper">
+          <NavBar />
+          <Component {...pageProps} />
+        </div>
         <Footer />
       </ThemeProvider>
     </>
