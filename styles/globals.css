@@ -42,10 +42,10 @@ li {
   list-style: circle;
 }
 
-hr{
-  height:1px;
+hr {
+  height: 1px;
   background-color: #cacaca;
-  border : 0;
+  border: 0;
 }
 
 code[class*="language-"],
@@ -85,6 +85,15 @@ code[class*="language-"] ::selection {
   background: #7c6f64; /* bg4 */
 }
 
+code {
+  @apply px-1 py-1 bg-stone-200 dark:bg-stone-600 text-red-600 dark:text-red-400;
+  border-radius: 7px;
+  /* padding: 3px 6px;
+  background-color: #e0e0e0;
+  color: #d95755;
+  border-radius: 5px; */
+}
+
 /* Code blocks */
 pre[class*="language-"] {
   padding: 1em;
@@ -101,7 +110,6 @@ pre[class*="language-"] {
 
 /* Inline code */
 :not(pre) > code[class*="language-"] {
-  padding: 0.1em;
   border-radius: 0.3em;
   font-size: 14px;
 }
