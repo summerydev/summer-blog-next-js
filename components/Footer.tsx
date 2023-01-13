@@ -6,7 +6,7 @@ export default function Footer() {
     <footer>
       <div className="link-box">
         {social.map((el) => (
-          <Link href={el.url}>
+          <Link href={el.url} key={el.name}>
             <Image
               src={el.svg}
               alt={el.name}
