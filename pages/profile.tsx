@@ -8,21 +8,58 @@ export default function Profile() {
     title: "Summer ✨ Frontend Engineer",
     description: "Hello 👋 I'm Summer",
   };
-  
+
+  const email = "summery.dev@gamil.com";
+
+  const copy = () => {
+    window.navigator.clipboard.writeText(email);
+  };
+
   return (
     <>
       <Container customMeta={customMeta}>
         <br />
-        <BorderRadiusBox width={`w-fit`} height={`h-fit`}>
-          {stack.map((el) => (
-            <Image
-              src={el.svg}
-              alt={el.name}
-              width={`30`}
-              height={`30`}
-            ></Image>
-          ))}
-        </BorderRadiusBox>
+        <div className={`text-center font-mono text-5xl font-extrabold`}>
+          🚧 개발중 🚜
+        </div>
+        <br />
+        <div className={`space-y-5`}>
+          <BorderRadiusBox width={`w-fit`} height={`h-fit`}>
+            <div className={`font-mono text-lg font-extrabold`}>Profile</div>
+            <div>
+              <div>Summer.</div>
+              <div>
+                📮{" "}
+                <span
+                  onClick={copy}
+                  className={`cursor-pointer hover:underline hover:underline-offset-4 hover:text-blue-600`}
+                >
+                  {email}
+                </span>
+              </div>
+            </div>
+          </BorderRadiusBox>
+          <BorderRadiusBox width={`w-fit`} height={`h-fit`}>
+            <div className={`font-mono text-lg font-extrabold`}>
+              Skill Stack
+            </div>
+            <div className={`space-x-2`}>
+              {stack.map((el) => (
+                <div key={el.name} className={`flex flex-row m-0`}>
+                  <span>
+                    <Image
+                      src={el.svg}
+                      alt={el.name}
+                      width={`20`}
+                      height={`20`}
+                    ></Image>
+                  </span>
+                  <span className="ml-1 text-gray-800">{el.name}</span>
+                </div>
+              ))}
+            </div>
+          </BorderRadiusBox>
+        </div>
       </Container>
     </>
   );
