@@ -14,7 +14,11 @@ export default function Projects() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main>
-        <>hihi project list list</>
+        <>
+          <div className={`text-center font-mono text-5xl font-extrabold`}>
+            🚧 개발중 🚜
+          </div>
+        </>
       </main>
     </>
   );
