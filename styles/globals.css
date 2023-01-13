@@ -9,12 +9,12 @@ body {
 
 #wrapper {
   height: auto;
-  min-height: calc(100vh - 50px);
-  padding-bottom: 50px;
+  min-height: calc(100vh - 80px);
+  padding-bottom: 80px;
 }
 
 footer {
-  height: 50px;
+  height: 80px;
   position: relative;
   transform: translateY(-100%);
   text-align: center;
@@ -24,6 +24,11 @@ footer {
 footer > *,
 footer > * > * {
   margin: auto;
+}
+
+.link-box > a {
+  display: inline-flex;
+  margin: 0 10px;
 }
 
 .mdxstyle > * {
@@ -57,16 +62,16 @@ footer > * > * {
   font-weight: 600;
 }
 
-ul {
+.mdxstyle ul {
   padding-left: 30px;
   list-style-position: outside;
 }
 
-li {
+.mdxstyle li {
   list-style: circle;
 }
 
-hr {
+.mdxstyle hr {
   height: 1px;
   background-color: #cacaca;
   border: 0;
