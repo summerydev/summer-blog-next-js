@@ -1,19 +1,22 @@
 import Image from "next/image";
 import Link from "next/link";
-
+import { social } from "../data/metadata";
 export default function Footer() {
   return (
     <footer>
-      <div>⋆ ₊ ﾟ ☽ * ₊ ⋆</div>
-      <div className="pb-2">₊</div>
-      <Link href={"https://github.com/summerydev"}>
-        <Image
-          src={`/social/github.svg`}
-          alt={`github`}
-          width={`30`}
-          height={`30`}
-        ></Image>
-      </Link>
+      <div className="link-box">
+        {social.map((el) => (
+          <Link href={el.url} key={el.name}>
+            <Image
+              src={el.svg}
+              alt={el.name}
+              width={`20`}
+              height={`20`}
+            ></Image>
+          </Link>
+        ))}
+      </div>
+      <div className={`text-gray-500`}>⋆ ₊ ﾟ 𝒮𝓊𝓂𝓂ℯ𝓇 ☽ * ₊ ⋆</div>
     </footer>
   );
 }
