@@ -24,6 +24,9 @@ export default function Home({
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main>
+        <div className={`font-medium text-2xl dark:hover:text-white`}>
+          🧑‍💻 Recents Posts
+        </div>
         <PostList posts={posts} />
       </main>
     </>

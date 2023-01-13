@@ -24,6 +24,9 @@ export default function Posts({
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main>
+        <div className={`font-medium text-2xl dark:hover:text-white`}>
+          💻 All Posts
+        </div>
         <PostList posts={posts} />
       </main>
     </>
