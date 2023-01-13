@@ -1,6 +1,5 @@
 import Head from "next/head";
 import metadata from "../data/metadata";
-import NavBar from "./NavBar";
 
 const Container = (props) => {
   const meta = {
