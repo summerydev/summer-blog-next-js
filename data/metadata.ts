@@ -4,9 +4,24 @@ const metadata = {
   author: "Summer",
 };
 
-const url = {
-  github: "https://github.com/summerydev",
-  instagram: "https://www.instagram.com/in_meeeeee",
-};
+const social = [
+  {
+    name: "github",
+    url: "https://github.com/summerydev",
+    svg: "/social/github.svg",
+  },
+  {
+    name: "instagram",
+    url: "https://www.instagram.com/in_meeeeee",
+    svg: "/social/instagram.svg",
+  },
+];
 
-export { metadata, url };
+const stack = [
+  { name: "javascript", svg: "/stack/javascript.svg" },
+  { name: "typescript", svg: "/stack/typescript.svg" },
+  { name: "vuejs", svg: "/stack/vuejs.svg" },
+  { name: "nodejs", svg: "/stack/nodejs.svg" },
+];
+
+export { metadata, social, stack };
