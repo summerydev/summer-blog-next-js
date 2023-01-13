@@ -4,4 +4,9 @@ const metadata = {
   author: "Summer",
 };
 
-export default metadata;
+const url = {
+  github: "https://github.com/summerydev",
+  instagram: "https://www.instagram.com/in_meeeeee",
+};
+
+export { metadata, url };

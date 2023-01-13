@@ -1,29 +1,28 @@
 import Image from "next/image";
 import Link from "next/link";
-
+import { url } from "../data/metadata";
 export default function Footer() {
   return (
     <footer>
-      <div>⋆ ₊ ﾟ 𝒮𝓊𝓂𝓂ℯ𝓇 ☽ * ₊ ⋆</div>
-      <div className="pb-2">₊</div>
       <div className="link-box">
-        <Link href={"https://github.com/summerydev"}>
+        <Link href={url.github}>
           <Image
             src={`/social/github.svg`}
             alt={`github`}
-            width={`30`}
-            height={`30`}
+            width={`20`}
+            height={`20`}
           ></Image>
         </Link>
-        <Link href={"https://www.instagram.com/in_meeeeee"}>
+        <Link href={url.instagram}>
           <Image
             src={`/social/instagram.svg`}
             alt={`github`}
-            width={`30`}
-            height={`30`}
+            width={`20`}
+            height={`20`}
           ></Image>
         </Link>
       </div>
+      <div className={`text-gray-500`}>⋆ ₊ ﾟ 𝒮𝓊𝓂𝓂ℯ𝓇 ☽ * ₊ ⋆</div>
     </footer>
   );
 }

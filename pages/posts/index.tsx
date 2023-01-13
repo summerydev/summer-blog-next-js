@@ -2,7 +2,7 @@ import { Inter } from "@next/font/google";
 import { allPosts } from "contentlayer/generated";
 import { InferGetStaticPropsType } from "next";
 import Head from "next/head";
-import metadata from "../../data/metadata";
+import { metadata } from "../../data/metadata";
 import PostList from "../../components/PostList";
 
 const inter = Inter({ subsets: ["latin"] });
