@@ -32,7 +32,7 @@ export default function Posts({
         <div className={`font-medium text-2xl dark:hover:text-white`}>
           💻 All Posts
         </div>
-        <div className="space-x-4 pt-3 text-sm font-light">
+        <div className="space-x-4 pt-3 text-sm font-light py-3">
           {tags.map((tag) => (
             <Link
               className="hover:text-violet-500"
