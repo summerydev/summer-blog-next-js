@@ -9,7 +9,7 @@ export default function Profile() {
     description: "Hello 👋 I'm Summer",
   };
 
-  const email = "summery.dev@gamil.com";
+  const email = "summery.dev@gmail.com";
 
   const copy = () => {
     window.navigator.clipboard.writeText(email);
@@ -24,25 +24,23 @@ export default function Profile() {
         </div>
         <br />
         <div className={`space-y-5`}>
-          <BorderRadiusBox width={`w-fit`} height={`h-fit`}>
-            <div className={`font-mono text-lg font-extrabold`}>Profile</div>
+          <BorderRadiusBox title={"Profile"} width={`w-fit`} height={`h-fit`}>
+            <div>Summer.</div>
             <div>
-              <div>Summer.</div>
-              <div>
-                📮{" "}
-                <span
-                  onClick={copy}
-                  className={`cursor-pointer hover:underline hover:underline-offset-4 hover:text-blue-600`}
-                >
-                  {email}
-                </span>
-              </div>
+              📮{" "}
+              <span
+                onClick={copy}
+                className={`cursor-pointer hover:underline hover:underline-offset-4 hover:text-blue-600`}
+              >
+                {email}
+              </span>
             </div>
           </BorderRadiusBox>
-          <BorderRadiusBox width={`w-fit`} height={`h-fit`}>
-            <div className={`font-mono text-lg font-extrabold`}>
-              Skill Stack
-            </div>
+          <BorderRadiusBox
+            title={"Skill Stack"}
+            width={`w-fit`}
+            height={`h-fit`}
+          >
             <div className={`space-x-2`}>
               {stack.map((el) => (
                 <div key={el.name} className={`flex flex-row m-0`}>
