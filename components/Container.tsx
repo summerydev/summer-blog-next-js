@@ -13,6 +13,7 @@ const Container = (props) => {
       <Head>
         <title>{meta.title}</title>
         <meta name="description" content={meta.description} />
+        <meta name="keywords" content={meta.keywords} />
       </Head>
       <header
         className={`w-full max-w-3xl flex flex-row justify-between items-center my-1 `}
