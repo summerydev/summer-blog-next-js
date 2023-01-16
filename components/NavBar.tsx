@@ -15,7 +15,7 @@ export default function NavBar() {
   }, []);
 
   const clicked = "text-purple-400 font-bold";
-  console.log(router);
+  
   return (
     <nav className="pt-10 pb-5 space-x-3">
       {navLinks.map((el) => (
