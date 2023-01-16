@@ -2,7 +2,7 @@ import Link from "next/link";
 
 export default function PostLists({ posts }) {
   return (
-    <div className="p-3">
+    <div>
       {posts.map((post) => (
         <Link
           key={post._id}
@@ -27,19 +27,9 @@ export default function PostLists({ posts }) {
             </div>
             <div className="pl-1 space-x-2 font-light text-gray-500 text-sm dark:text-white">
               <span>{post.date}</span>
-              <span className="tags">
-                {post.tag1}
-              </span>
-              {post.tag2 && (
-                <span className="tags">
-                  {post.tag2}
-                </span>
-              )}
-              {post.tag3 && (
-                <span className="tags">
-                  {post.tag3}
-                </span>
-              )}
+              <span className="tags">{post.tag1}</span>
+              {post.tag2 && <span className="tags">{post.tag2}</span>}
+              {post.tag3 && <span className="tags">{post.tag3}</span>}
             </div>
           </div>
         </Link>

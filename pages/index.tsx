@@ -23,7 +23,7 @@ export default function Home({
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main>
+      <main className="space-y-3">
         <div className={`font-medium text-2xl dark:hover:text-white`}>
           🧑‍💻 Recents Posts
         </div>
