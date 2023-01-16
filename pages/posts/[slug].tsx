@@ -8,7 +8,6 @@ const Post = ({ post }: InferGetStaticPropsType<typeof getStaticProps>) => {
   const keywords = `${post.tag1}${post.tag2 ? ", " + post.tag2 : ""}${
     post.tag3 ? ", " + post.tag3 : ""
   }`;
-  console.log(keywords);
   const customMeta = {
     title: post.title,
     description: post.description,
