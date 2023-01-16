@@ -1,12 +1,14 @@
 # Blog with nextjs
 Blog with nextjs
+## [🚀 check summer-blog](https://summer-blog.vercel.app/)  
+![readme.gif](/public/readme.gif)
 
 <br />
 <br />
 
 # Summary
 ✨ Blog with nextjs  
-[🚀 check summer-blog](https://summer-blog.vercel.app/)  
+[🚀 summer-blog](https://summer-blog.vercel.app/)  
 [⚒️ Stack](#stack)  
 [💻 UI](#ui)  
 [🧑‍💻 Implement](#implement)
