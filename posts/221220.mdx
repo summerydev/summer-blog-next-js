@@ -1,0 +1,828 @@
+---
+title: JWT
+date: 2022-12-20
+description: json web token으로 로그인 인증 구현
+tag1: web
+tag2: jwt
+---
+
+# ☀️ 클라이언트 인증 방식
+
+서버가 클라이언트를 인증하는 방식 : `cookie`, `session`, `token`
+
+## <br />
+
+## 1. cookie
+
+- Key-Value 형식의 문자열
+
+### 🍪 cookie 인증 방식
+
+1. 클라이언트가 서버에 요청
+2. 서버가 응답 작성 시 특정 정보를 응답 헤더의 Set-Cookie에 담음
+3. 클라이언트는 요청을 보낼 때마다 저장된 쿠카를 요청 헤더의 Cookie에 담아 보냄
+
+### 🍪 특징
+
+- 요청 시 쿠키의 값을 그대로 보냄 → 보안에 취약
+- 쿠키의 용량 제한
+- 웹 브라우저마다 쿠키 지원 형태 다름 → 브라우저간 공유 불가능
+
+## <br />
+
+## 2. session
+
+- 민감 정보를 서버 측에 저장하고 관리하는 방식(서버의 메모리, 서버의 로컬파일, DB 등)
+- Key(SESSION ID) + Value
+
+### 🌐 session 인증 방식
+
+1. 유저가 웹사이트에서 로그인
+2. 해당 세션이 SESSION ID를 기준으로 서버 메모리 또는 DB에 저장
+3. 서버에서 브라우저 쿠키에 SESSION ID 저장
+4. 브라우저는 모든 요청에 쿠키의 SESSION ID 담아 전송
+5. 요청의 SESSION ID와 서버에서 관리하는 SESSION ID 비교 후 인증 수행
+
+### 🌐 특징
+
+- 요청 많아지면 서버에 부하
+- SESSION ID 자체를 탈취당하는 문제
+
+<br />
+## 3. token - 클라이언트가 서버에 접속 시 유일한 인증 토큰 부여
+
+### 🪙 token 인증 방식
+
+1. 사용자가 아이디와 비밀번호로 로그인
+2. 서버 측에서 클라이언트에게 유일한 토큰 발급
+3. 토큰을 쿠키 또는 스토리지에 저장, 서버 요청 할 때마다 HTTP요청 헤더에 포함시켜 전달
+4. 서버는 전달받은 토큰 검증, 요청 응답
+
+### 🪙 특징
+
+- 별도의 저장소 필요 없음, DB 조회 불필요
+- Payload 자체는 암호화 되지 않음 → 유저 중요 정보 담을 수 없음
+- 토큰 탈취 시 대처 힘듦 → 사용 기간 제한 설정
+
+## <br />
+
+# ☀️ JWT
+
+## JWT란?
+
+- JSON Web Token : 인증에 필요한 정보들을 암호화시킨 JSON 토큰
+- `.` 을 구분자로 나누어지는 세 가지 문자열 조합(Header, Payload, Signature)  
+   ![jwtimg](/img/221220/1.png)
+- Header : JWT 에서 사용할 타입과 해시 알고리즘의 종류
+- Payload : 서버에서 첨부한 사용자 권한 정보와 데이터
+- Signature : Header, Payload 를 Base64 URL-safe Encode 를 한 이후 Header 에 명시된 해시함수를 적용하고, 개인키(Private Key)로 서명한 전자서명
+
+## Access Token / Refresh Token
+
+- Access Token (접근에 관여)
+  - **클라이언트**가 갖고있는 실제로 유저의 정보가 담긴 토큰
+  - 클라이언트에서 요청이 오면 서버에서 해당 토큰에 있는 정보를 활용해 사용자 정보에 맞게 응답을 진행
+- Refresh Token (재발급에 관여)
+  - 새로운 Access Token을 발급해주기 위해 사용하는 토큰
+  - 짧은 수명을 가지는 Access Token에게 새로운 토큰을 발급해주기 위해 사용
+  - 보통 **데이터베이스**에 유저 정보와 같이 기록
+
+### 💁 원리
+
+![jwtimg](/img/221220/2.png)
+
+1. 처음 로그인 성공
+2. 서버 : Access Token, Refresh Token 동시 발급, DB에 Refresh Token저장
+
+   클라이언트 : 쿠키or세션or웹스토리지에 Access Token, Refresh Token 저장
+
+3. 클라이언트 api 요청 시 헤더에 토큰 담아 요청 → 서버에서 토큰 검증
+   - case1 : access token 만료, refresh token 만료 **→** 재 로그인, 새로 발급
+   - case2 : access token 만료, refresh token 유효 **→** refresh token을 검증, access token 재발급
+   - case3 : access token 유효, refresh token 만료
+     **→** 방법1. access token을 검증하여 refresh token 재발급
+     → 방법2. 재 로그인, 새로 발급
+   - case4 : access token 유효, refresh token 유효 **→** 정상 처리
+4. 로그아웃 시 저장소에서 Access token, Refresh Token을 삭제
+   <br />
+
+---
+
+# ☀️ JWT 코드 적용 1
+
+- axios interceptors의 header에 토큰을 둘 다 담아서 보내는 방식
+- 처음에는 편하게 토큰 두개 다 보내서 검증하려고 이 방식을 사용하지만, 보안상 이 방식은 하면 안된다.
+
+## api
+
+### `secrityHandlers.js`
+
+- 요청이 들어올 때마다 토큰을 검증, 재발급, 에러 핸들링
+
+```jsx
+const jwt = require("jsonwebtoken");
+const sharedSecret = "hiJWT";
+const securityHandlers = require("./securityHandlers");
+
+exports.Bearer = function (req, authOrSecDef, token, callback) {
+  function sendError() {
+    return new Error("access denied!");
+  }
+
+  if (req.headers.authorization) {
+    const accessToken = req.headers.authorization.split("|")[1];
+    const refreshToken = req.headers.authorization.split("|")[2];
+
+    const refreshVerify = (token) => {
+      try {
+        jwt.verify(token, sharedSecret);
+        return true;
+      } catch (e) {
+        return false;
+      }
+    };
+
+    jwt.verify(
+      accessToken,
+      sharedSecret,
+      function (verificationError, decodedToken) {
+        if (verificationError == null && decodedToken) {
+          if (refreshVerify(refreshToken)) {
+            // a ok, r ok
+            req.auth = decodedToken;
+            return callback(null);
+          } else {
+            // a ok, r err
+            // 1
+            // const refreshToken = securityHandlers.createRefreshToken({
+            //   id: decodedToken.id,
+            // });
+            // req.auth = {
+            //   token: {
+            //     accessToken: accessToken,
+            //     refreshToken: refreshToken,
+            //   },
+            // };
+            // return callback(null);
+
+            // 2
+            return req.res.status(401).json({ msg: "token expired" });
+          }
+        } else if (jwt.TokenExpiredError.name === verificationError.name) {
+          if (refreshVerify(refreshToken)) {
+            // a err, r ok
+            const decodedToken = jwt.decode(refreshToken);
+            const accessToken = securityHandlers.createToken({
+              id: decodedToken.id,
+            });
+            req.auth = accessToken;
+            return callback(null);
+          } else {
+            // a err, r err
+            return req.res.status(401).json({ msg: "token expired" });
+          }
+        } else {
+          return callback(sendError());
+        }
+      }
+    );
+  }
+};
+
+exports.createToken = function (obj) {
+  const token = jwt.sign(obj, sharedSecret, {
+    algorithm: "HS256",
+    expiresIn: "7d",
+  });
+  return token;
+};
+
+exports.createRefreshToken = function (obj) {
+  const token = jwt.sign(obj, sharedSecret, {
+    algorithm: "HS256",
+    expiresIn: "10d",
+  });
+  return token;
+};
+```
+
+<br />
+### `auth.js`
+
+- 로그인 로직
+
+```jsx
+const securityHandlers = require("../helpers/securityHandlers");
+const { authConfig } = require("../../config/authConfig.js");
+
+const auth = function () {
+  const login = (req, res) => {
+    const inputData = req.swagger.params.body.value;
+    if (inputData.id == authConfig.id && inputData.pwd == authConfig.pwd) {
+      const { accessToken, refreshToken } = makeToken({ id: inputData.id });
+      res.json({
+        ok: true,
+        id: inputData.id,
+        token: {
+          accessToken: accessToken,
+          refreshToken: refreshToken,
+        },
+      });
+    } else {
+      res.json({
+        ok: false,
+        msg: "아이디 또는 비밀번호가 일치하지 않습니다.",
+      });
+    }
+  };
+
+  const makeToken = (id) => {
+    const accessToken = securityHandlers.createToken(id);
+    const refreshToken = securityHandlers.createRefreshToken(id);
+    return { accessToken, refreshToken };
+  };
+
+  return {
+    login: login,
+  };
+};
+
+module.exports = auth();
+```
+
+<br />
+### swagger.yaml 설정
+
+### `default.yaml`
+
+```jsx
+_swagger_security: name: swagger_security;
+securityHandlersModule: api / helpers / securityHandlers;
+```
+
+### `swagger.yaml`
+
+```jsx
+securityDefinitions:
+  Bearer:
+    type: basic
+
+paths:
+  /user:
+    x-swagger-router-controller: something
+    get:
+      security:
+        - Bearer: []
+```
+
+<br />
+## ui
+
+### `main.js`
+
+```jsx
+axios.defaults.baseURL = api;
+
+axios.interceptors.request.use((config) => {
+  if (store.state.auth.token) {
+    config.headers = {
+      ...config.headers,
+      Authorization: `Bearer|${store.state.auth.token.accessToken}|${store.state.auth.token.refreshToken}`,
+    };
+  }
+  return config;
+});
+
+axios.interceptors.response.use(null, (error) => {
+  if (error.response.status === 401) {
+    console.log(error.response.msg);
+    ElementUI.Message({
+      message: "로그인 인증 기간이 만료되었습니다. 재로그인 해주세요.",
+      type: "warning",
+    });
+    store.dispatch("setIsAuth", false);
+    router.replace("/login");
+    return Promise.reject(error);
+  } else if (error.response.status === 403) {
+    ElementUI.Message({
+      message: "접근 권한이 없습니다. 로그인 해주세요.",
+      type: "warning",
+    });
+    return Promise.reject(error);
+  } else {
+    return Promise.reject(error);
+  }
+});
+```
+
+## <br />
+
+# ☀️ JWT 코드 적용 2
+
+- axios intercentors header에 access token만 담아 보내고, security handler의 응답에 따라 다시 refresh token을 담아 보내는 방식, GET 요청에 대해서는 헤더에 토큰 담아 보내지 않음
+
+## api
+
+### `secrityHandlers.js`
+
+- 요청이 들어올 때마다 토큰을 검증, 재발급, 에러 발생
+
+```jsx
+const jwt = require("jsonwebtoken");
+const sharedSecret = "hiJWT";
+const { authConfig } = require("../../config/authConfig.js");
+
+exports.Bearer = function (req, authOrSecDef, token, callback) {
+  function sendError() {
+    return new Error("access denied");
+  }
+
+  const path = req.path.split("/common/v1")[1];
+  if (!req.headers.Authorization || path == "/auth/refresh") {
+    return callback(null);
+  } else {
+    const tokenString = token.split("|")[1];
+    jwt.verify(
+      tokenString,
+      sharedSecret,
+      function (verificationError, decodedToken) {
+        if (verificationError == null && decodedToken) {
+          if (authConfig.issuer == decodedToken.iss) {
+            req.auth = decodedToken;
+            return callback(null);
+          } else {
+            return req.res.status(403).json({ msg: "access denied" });
+          }
+        } else if (jwt.TokenExpiredError.name === verificationError.name) {
+          return req.res.status(401).json({ msg: "token expired" });
+        }
+      }
+    );
+  }
+};
+
+exports.refreshVerify = (token) => {
+  try {
+    jwt.verify(token, sharedSecret);
+    return true;
+  } catch (e) {
+    return false;
+  }
+};
+
+exports.createToken = function (obj) {
+  obj.iss = authConfig.issuer;
+  const token = jwt.sign(obj, sharedSecret, {
+    algorithm: "HS256",
+    expiresIn: "7d",
+  });
+  return token;
+};
+
+exports.createRefreshToken = function (obj) {
+  obj.iss = authConfig.issuer;
+  const token = jwt.sign(obj, sharedSecret, {
+    algorithm: "HS256",
+    expiresIn: "30d",
+  });
+  return token;
+};
+```
+
+<br />
+### `auth.js`
+
+- 로그인 로직
+
+```jsx
+const securityHandlers = require("../helpers/securityHandlers");
+const { authConfig } = require("../../config/authConfig.js");
+
+const auth = function () {
+  const login = (req, res) => {
+    const inputData = req.swagger.params.body.value;
+    if (inputData.id == authConfig.id && inputData.pwd == authConfig.pwd) {
+      const { accessToken, refreshToken } = makeToken({ id: inputData.id });
+      res.json({
+        ok: true,
+        id: inputData.id,
+        token: {
+          accessToken: accessToken,
+          refreshToken: refreshToken,
+        },
+      });
+    } else {
+      res.json({
+        ok: false,
+        msg: "아이디 또는 비밀번호가 일치하지 않습니다.",
+      });
+    }
+  };
+
+  const refreshVerify = (req, res) => {
+    const token = req.swagger.params.body.value.refreshToken;
+    if (securityHandlers.refreshVerify(token)) {
+      const { accessToken, refreshToken } = makeToken({ id: authConfig.id });
+      res.json({
+        ok: true,
+        token: {
+          accessToken: accessToken,
+          refreshToken: refreshToken,
+        },
+      });
+    } else {
+      return res.status(401).json({ msg: "token expired" });
+    }
+  };
+  const makeToken = (id) => {
+    const accessToken = securityHandlers.createToken(id);
+    const refreshToken = securityHandlers.createRefreshToken(id);
+    return { accessToken, refreshToken };
+  };
+
+  return {
+    login: login,
+    refreshVerify: refreshVerify,
+  };
+};
+
+module.exports = auth();
+```
+
+<br />
+### swagger.yaml 설정
+
+### `default.yaml`
+
+```jsx
+_swagger_security: name: swagger_security;
+securityHandlersModule: api / helpers / securityHandlers;
+```
+
+### `swagger.yaml`
+
+```jsx
+securityDefinitions:
+  Bearer:
+    type: apiKey
+    name: Authorization
+    in: header
+    description: "/auth에서 로그인 후 토큰입력 : Bearer|[token]"
+
+paths:
+  /user:
+    x-swagger-router-controller: something
+    get:
+      security:
+        - Bearer: []
+```
+
+<br />
+## ui
+
+### `main.js`
+
+```jsx
+axios.defaults.baseURL = api;
+
+const axiosRefreshInstance = axios.create({
+  baseURL: api,
+});
+
+axiosRefreshInstance.interceptors.request.use(
+  (config) => {
+    if (store.state.auth.token) {
+      config.headers = {
+        ...config.headers,
+        Authorization: `Bearer|${store.state.auth.token.refreshToken}`,
+      };
+    }
+    return config;
+  },
+  (err) => {
+    console.log(err);
+  }
+);
+
+axios.interceptors.request.use(
+  (config) => {
+    const method = config.method.toUpperCase();
+    if (method != "GET") {
+      if (store.state.auth.token) {
+        config.headers = {
+          ...config.headers,
+          Authorization: `Bearer|${store.state.auth.token.accessToken}`,
+        };
+      }
+      return config;
+    } else {
+      return config;
+    }
+  },
+  (err) => {
+    return Promise.reject(err);
+  }
+);
+
+axios.interceptors.response.use(null, async (error) => {
+  if (error.response.status == 401) {
+    const originConfig = error.response.config;
+    try {
+      const response = await axiosRefreshInstance.post("/auth/refresh", {
+        refreshToken: store.state.auth.token.refreshToken,
+      });
+      if (response.data.token) {
+        store.dispatch("setIsAuth", {
+          isAuth: true,
+          token: response.data.token,
+        });
+        originConfig.headers.Authorization = `Bearer|${response.data.token.accessToken}`;
+        return axios.request(originConfig);
+      }
+    } catch (error) {
+      ElementUI.Message({
+        message: "로그인 인증 기간이 만료되었습니다. 재로그인 해주세요.",
+        type: "warning",
+      });
+      store.dispatch("setIsAuth", false);
+      router.replace("/login");
+      return Promise.reject(error);
+    }
+  } else if (error.response.status == 403 && error.response.data.msg) {
+    ElementUI.Message({
+      message: "접근 권한이 없습니다. 로그인 해주세요.",
+      type: "warning",
+    });
+    store.dispatch("setIsAuth", false);
+    router.replace("/login");
+    return Promise.reject(error);
+  } else {
+    return Promise.reject(error);
+  }
+});
+```
+
+## <br />
+
+# ☀️ JWT 코드 적용 3
+
+- axios intercentors header에 access token만 담아 보내고
+- security handler의 응답에 따라 다시 refresh token을 담아 보내는 방식
+- 모든 요청에 대해 토큰 담아 보냄
+
+## api
+
+### `secrityHandlers.js`
+
+- 요청이 들어올 때마다 토큰을 검증, 재발급, 에러 발생
+
+```jsx
+const jwt = require("jsonwebtoken");
+const sharedSecret = "hiJWT";
+const { authConfig } = require("../../config/authConfig.js");
+
+exports.Bearer = function (req, authOrSecDef, token, callback) {
+  const path = req.path.split("/common/v1")[1];
+
+  if (path == "/auth" || path == "/auth/refresh") {
+    return callback(null);
+  } else if (req.headers.authorization) {
+    const tokenString = token.split("|")[1];
+    // token 검증
+    jwt.verify(
+      tokenString,
+      sharedSecret,
+      function (verificationError, decodedToken) {
+        if (verificationError == null && decodedToken) {
+          // 유효 토큰일 때
+          if (authConfig.issuer == decodedToken.iss) {
+            req.auth = decodedToken;
+            return callback(null);
+          } else {
+            return req.res.status(403).json({ msg: "access denied" });
+          }
+        } else if (jwt.TokenExpiredError.name === verificationError.name) {
+          // 만료 토큰일 때
+          return req.res.status(401).json({ msg: "token expired" });
+        }
+      }
+    );
+  } else {
+    // !req.headers.authorization
+    return req.res.status(403).json({ msg: "access denied" });
+  }
+};
+
+exports.refreshVerify = (token) => {
+  try {
+    jwt.verify(token, sharedSecret);
+    return true;
+  } catch (e) {
+    return false;
+  }
+};
+
+exports.createToken = function (obj) {
+  obj.iss = authConfig.issuer;
+  const token = jwt.sign(obj, sharedSecret, {
+    algorithm: "HS256",
+    expiresIn: "7d",
+  });
+  return token;
+};
+
+exports.createRefreshToken = function (obj) {
+  obj.iss = authConfig.issuer;
+  const token = jwt.sign(obj, sharedSecret, {
+    algorithm: "HS256",
+    expiresIn: "30d",
+  });
+  return token;
+};
+```
+
+<br />
+### `auth.js`
+
+- 로그인 로직
+
+```jsx
+const securityHandlers = require("../helpers/securityHandlers");
+const { authConfig } = require("../../config/authConfig.js");
+
+const auth = function () {
+  const login = (req, res) => {
+    const inputData = req.swagger.params.body.value;
+    if (inputData.id == authConfig.id && inputData.pwd == authConfig.pwd) {
+      const { accessToken, refreshToken } = makeToken({ id: inputData.id });
+      res.json({
+        ok: true,
+        id: inputData.id,
+        token: {
+          accessToken: accessToken,
+          refreshToken: refreshToken,
+        },
+      });
+    } else {
+      res.json({ ok: false, msg: "아이디 또는 비밀번호가 일치하지 않습니다." });
+    }
+  };
+
+  const refreshVerify = (req, res) => {
+    const token = req.swagger.params.body.value.refreshToken;
+    if (securityHandlers.refreshVerify(token)) {
+      const { accessToken, refreshToken } = makeToken({ id: authConfig.id });
+      res.json({
+        ok: true,
+        token: {
+          accessToken: accessToken,
+          refreshToken: refreshToken,
+        },
+      });
+    } else {
+      return res.status(401).json({ msg: "token expired" });
+    }
+  };
+  const makeToken = (id) => {
+    const accessToken = securityHandlers.createToken(id);
+    const refreshToken = securityHandlers.createRefreshToken(id);
+    return { accessToken, refreshToken };
+  };
+
+  return {
+    login: login,
+    refreshVerify: refreshVerify,
+  };
+};
+
+module.exports = auth();
+```
+
+### swagger.yaml 설정
+
+`default.yaml`
+
+```jsx
+_swagger_security: name: swagger_security;
+securityHandlersModule: api / helpers / securityHandlers;
+```
+
+<br />
+`swagger.yaml`
+
+```jsx
+securityDefinitions:
+  Bearer:
+    type: apiKey
+    name: Authorization
+    in: header
+    description: "/auth에서 로그인 후 토큰입력 : Bearer|[token]"
+
+paths:
+  /user:
+    x-swagger-router-controller: something
+    get:
+      security:
+        - Bearer: []
+```
+
+<br />
+### ui
+
+`main.js`
+
+```jsx
+axios.defaults.baseURL = api;
+
+const axiosRefreshInstance = axios.create({
+  baseURL: api,
+});
+
+// refresh interceptors
+axiosRefreshInstance.interceptors.request.use(
+  (config) => {
+    if (store.state.auth.token) {
+      config.headers = {
+        ...config.headers,
+        authorization: `Bearer|${store.state.auth.token.refreshToken}`,
+      };
+    }
+    return config;
+  },
+  (err) => {
+    console.log(err);
+  }
+);
+
+// origin interceptors
+axios.interceptors.request.use(
+  (config) => {
+    if (store.state.auth.token) {
+      config.headers = {
+        ...config.headers,
+        authorization: `Bearer|${store.state.auth.token.accessToken}`,
+      };
+      return config;
+    } else {
+      return config;
+    }
+  },
+  (err) => {
+    return Promise.reject(err);
+  }
+);
+
+axios.interceptors.response.use(null, async (error) => {
+  if (error.response.status == 401) {
+    const originConfig = error.response.config;
+    try {
+      // refreshToken 검증
+      const response = await axiosRefreshInstance.post("/auth/refresh", {
+        refreshToken: store.state.auth.token.refreshToken,
+      });
+      if (response.data.token) {
+        store.dispatch("setIsAuth", {
+          isAuth: true,
+          token: response.data.token,
+        });
+        originConfig.headers.authorization = `Bearer|${response.data.token.accessToken}`;
+        return axios.request(originConfig);
+      }
+    } catch (error) {
+      ElementUI.Message({
+        message: "로그인 인증 기간이 만료되었습니다. 재로그인 해주세요.",
+        type: "warning",
+      });
+      store.dispatch("setIsAuth", false);
+      router.replace("/login");
+      return Promise.reject(error);
+    }
+  } else if (error.response.status == 403 && error.response.data.msg) {
+    ElementUI.Message({
+      message: "접근 권한이 없습니다. 로그인 해주세요.",
+      type: "warning",
+    });
+    store.dispatch("setIsAuth", false);
+    router.replace("/login");
+    return Promise.reject(error);
+  } else {
+    return Promise.reject(error);
+  }
+});
+```
+
+<br />
+---
+# 📚 참고
+
+[인터셉터](https://axios-http.com/kr/docs/interceptors)
+
+[쉽게 알아보는 서버 인증 2편(Access Token + Refresh Token)](https://tansfil.tistory.com/59)
+
+[[WEB] 📚 Access Token & Refresh Token 원리 (feat. JWT)](https://inpa.tistory.com/entry/WEB-%F0%9F%93%9A-Access-Token-Refresh-Token-%EC%9B%90%EB%A6%AC-feat-JWT)
+
+[Express에서 JWT로 인증시스템 구현하기 ( Access Token과 Refresh Token )](https://velog.io/@kshired/Express%EC%97%90%EC%84%9C-JWT%EB%A1%9C-%EC%9D%B8%EC%A6%9D%EC%8B%9C%EC%8A%A4%ED%85%9C-%EA%B5%AC%ED%98%84%ED%95%98%EA%B8%B0-Access-Token%EA%B3%BC-Refresh-Token)
+
+[토근 기반 인증에서 bearer는 무엇일까?](https://velog.io/@cada/%ED%86%A0%EA%B7%BC-%EA%B8%B0%EB%B0%98-%EC%9D%B8%EC%A6%9D%EC%97%90%EC%84%9C-bearer%EB%8A%94-%EB%AC%B4%EC%97%87%EC%9D%BC%EA%B9%8C)
+
+[MDS인텔리전스 블로그 : 네이버 블로그](https://blog.naver.com/mds_datasecurity/222182943542)
