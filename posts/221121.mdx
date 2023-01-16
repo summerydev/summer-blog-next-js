@@ -1,0 +1,261 @@
+---
+title: vue set, nextTick
+date: 2022-11-21
+description: vue set 메소드와 nextTick을 사용해 봤어요
+tag1: vue
+---
+
+# $set
+
+- `$set` : 반응형으로 선언된 값을 업데이트
+- vue에서 data 옵션을 통해 선언한 데이터는 vue가 변화를 추적 `$set` 없이 값 갱신 가능
+- 기존 객체에 새로운 속성 추가, 속성 삭제 시 vue는 이를 감지하지 못하기 떄문에 `$set` 사용
+- `Vue.set` is a tool that allows us to add a new property to an already reactive object, and makes sure that this new property is ALSO reactive.
+
+<br />
+## 사용 방법
+```jsx
+// 배열
+Vue.set(arr, index, value);
+this.$set(arr, index, value);
+
+// 객체
+Vue.set(obj, key, value);
+this.$set(obj, key, value);
+Vue.delete(obj, key);
+this.$delete(obj, key);
+```
+
+<br />
+## 기존 데이터에 새로운 속성 추가하기
+### 속성 추가
+
+```jsx
+<script>
+export default {
+  name: "App",
+  data() {
+    return {
+      message: {
+        text: "this is message",
+      },
+    };
+  },
+  mounted(){
+    this.message.author = "summer";
+  }
+};
+</script>
+```
+
+mounted에서 객체 속성 추가하더라도 변화 감지하지 못함
+
+(created로 변경할 경우 감지함)
+
+![221121-1.png](/img/221121/221121-1.png)
+
+<br />
+### `$set` 을 사용해 추가
+
+```jsx
+<template>
+  <div id="app">
+    {{ message }}
+  </div>
+</template>
+
+<script>
+export default {
+  name: "App",
+  data() {
+    return {
+      message: {
+        text: "this is message",
+      },
+    };
+  },
+  mounted() {
+    this.$set(this.message, "author", "summer");
+  },
+};
+</script>
+```
+
+![221121-2.png](/img/221121/221121-2.png)
+
+데이터 변화를 감지해 템플릿에도 데이터가 표시됨
+
+<br />
+## 기존 데이터에 속성 삭제
+### 속성 삭제
+
+```jsx
+<template>
+  <div id="app">
+    {{ message }}
+  </div>
+</template>
+
+<script>
+export default {
+  name: "App",
+  data() {
+    return {
+      message: {
+        text: "this is message",
+      },
+    };
+  },
+  mounted() {
+    this.message.author = "summer";
+    delete this.message.text;
+  },
+};
+</script>
+```
+![221121-3.png](/img/221121/221121-3.png)
+
+vue data에서는 사라졌지만 템플릿에서는 변화 감지 못함
+
+→ author 추가 x
+
+→ text 삭제 x
+
+<br />
+### `$delete` 사용해 삭제
+
+```jsx
+<template>
+  <div id="app">
+    {{ message }}
+  </div>
+</template>
+
+<script>
+export default {
+  name: "App",
+  data() {
+    return {
+      message: {
+        text: "this is message",
+      },
+    };
+  },
+  mounted() {
+    this.$set(this.message, "author", "summer");
+    this.$delete(this.message, "text");
+  },
+};
+</script>
+```
+
+![221121-4.png](/img/221121/221121-4.png)
+
+- set 메소드로 템플릿 요소에 author 데이터가 붙음
+- delete 메소드로 템플릿 요소에 text 데이터가 삭제됨
+
+- vue에서 컴포넌트 생성 및 데이터 변경 → 가상 Dom에 변경사항이 반영되고, 실제 Dom과 비교 후 특정 부분 교체, 이후 mounted 훅 실행
+- 비동기 처리로 Dom 갱신 전에 Dom을 탐색 → undefined, null 에러
+- Dom이 그려진 이후에 데이터가 변경 될 경우 → Dom에 변경된 값이 반영되지 않음
+
+이 때 nextTick 콜백 함수 사용
+
+
+<br />
+---
+# `$nextTick()`
+
+- 데이터 변경 직후 nextTick 사용 → Dom 업데이트 완료 후 렌더링
+- $set() : 데이터속성 추가, 삭제를 vue가 감지하지 못했을 때 알려주는 역할
+- $nextTick() : 데이터 변화 후 Dom 조작 시에 사용
+<br />
+### 기존 코드
+
+```html
+{{ memo.title }} {{ memo.writer }}
+<Viewer v-if="content != null" :initialValue="content" :markdown="content" />
+```
+
+```jsx
+import { Viewer } from "@toast-ui/vue-editor";
+
+export default {
+  components: { Viewer },
+  props: { propmemo: {} },
+  data() {
+    return {
+      memo: this.propmemo,
+      content: this.propmemo.content,
+      title: "",
+    };
+  },
+};
+```
+
+- toast ui viewer에서는 `initialValue` 라는 prop을 사용해 데이터 전달
+- prop이 변경될 경우 데이터가 정상적으로 바인딩 되지 않아 Dom이 업데이트 되지 않음
+
+<br />
+### 변경
+
+```jsx
+import { Viewer } from "@toast-ui/vue-editor";
+
+export default {
+  components: { Viewer },
+  props: { propmemo: {} },
+  data() {
+    return {
+      memo: this.propmemo,
+      content: this.propmemo.content,
+      title: "",
+    };
+  },
+  watch: {
+    propmemo: function (value) {
+      this.memo = value;
+  },
+}
+```
+
+- watch로 변경되는 prop 감시 후 업데이트
+- memo값은 prop변경 이후 정상 반영
+- toast ui는 v-bind가 아닌 ref로 데이터를 조작하기 때문에, props로 받아온 값이 변경될 경우, Dom에 반영되지 않는 경우가 발생
+
+<br />
+### 최종 코드
+
+```jsx
+import { Viewer } from "@toast-ui/vue-editor";
+
+export default {
+  components: { Viewer },
+  props: { propmemo: {} },
+  data() {
+    return {
+      memo: this.propmemo,
+      content: this.propmemo.content,
+      title: "",
+    };
+  },
+  watch: {
+    propmemo: function (value) {
+      this.content = null;
+      this.$nextTick(() => {
+        this.memo = value;
+        this.content = this.propmemo.content;
+      });
+  },
+}
+```
+
+- watch로 변경되는 propmemo 데이터 감시
+- `this.$nextTick` 을 사용 → 값이 변경된 이후 nextTick 콜백 함수 실행해 Dom에 변경된 데이터 정상 반영
+
+
+<br />
+# 참고 자료 링크
+
+[Vue 인스턴스의 속성과 메소드 ($attrs, $set, $delete, $nextTick, $emit, $forceUpdate...)](https://y-chyachya.tistory.com/11)
+
+[So What Actually is Vue.set?](https://www.telerik.com/blogs/so-what-actually-is-vue-set)
