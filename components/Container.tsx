@@ -12,6 +12,7 @@ const Container = (props) => {
     <div className={`w-full flex flex-col items-center p-3 `}>
       <Head>
         <title>{meta.title}</title>
+        <meta name="description" content={meta.description} />
       </Head>
       <header
         className={`w-full max-w-3xl flex flex-row justify-between items-center my-1 `}
