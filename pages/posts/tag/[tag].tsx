@@ -32,9 +32,9 @@ export default function Posts({
         <div className={`font-medium text-2xl dark:hover:text-white`}>
           💻 All Posts
         </div>
-        <div className="space-x-3 pt-3 text-sm font-light">
+        <div className="space-x-4 pt-3 text-sm font-light">
           {tags.map((tag) => (
-            <Link key={tag} href={`/posts/tag/${tag}`}>
+            <Link className="hover:text-violet-500" key={tag} href={`/posts/tag/${tag}`}>
               {tag}
             </Link>
           ))}
