@@ -27,16 +27,16 @@ export default function PostLists({ posts }) {
             </div>
             <div className="pl-1 space-x-2 font-light text-gray-500 text-sm dark:text-white">
               <span>{post.date}</span>
-              <span className="tag">
+              <span className="tags">
                 {post.tag1}
               </span>
               {post.tag2 && (
-                <span className="tag">
+                <span className="tags">
                   {post.tag2}
                 </span>
               )}
               {post.tag3 && (
-                <span className="tag">
+                <span className="tags">
                   {post.tag3}
                 </span>
               )}
