@@ -38,6 +38,10 @@ footer > * > * {
   @apply cursor-pointer hover:underline hover:underline-offset-4 hover:text-blue-600;
 }
 
+.tags {
+  @apply px-2 py-1 bg-violet-200 px-2 py-1 rounded-full dark:bg-violet-300 dark:text-black;
+}
+
 .link-box > a {
   display: inline-flex;
   margin: 0 3px;
