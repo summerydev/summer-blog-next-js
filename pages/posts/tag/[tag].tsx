@@ -39,7 +39,19 @@ export default function Posts({
             </Link>
           ))}
         </div>
-        <PostList posts={posts} />
+        <PostList
+          posts={posts.filter((post) => {
+            if (pathName == "all") {
+              return post;
+            } else if (
+              post.tag1 == pathName ||
+              post.tag2 == pathName ||
+              post.tag3 == pathName
+            ) {
+              return post;
+            }
+          })}
+        />
       </main>
     </>
   );
@@ -49,25 +61,10 @@ export const getStaticProps = async () => {
   const posts = allPosts.sort(
     (a, b) => Number(new Date(b.date)) - Number(new Date(a.date))
   );
-  let filteredPosts = [];
-  if (pathName == "all") {
-    filteredPosts = posts;
-  } else {
-    filteredPosts = posts.filter((post) => {
-      if (
-        post.tag1 == pathName ||
-        post.tag2 == pathName ||
-        post.tag3 == pathName
-      ) {
-        return post;
-      }
-    });
-  }
 
-  console.log(filteredPosts.map(el => console.log(el.title)));
   return {
     props: {
-      posts: filteredPosts,
+      posts: posts,
     },
   };
 };
