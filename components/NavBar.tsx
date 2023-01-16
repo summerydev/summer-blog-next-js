@@ -15,7 +15,7 @@ export default function NavBar() {
   }, []);
 
   const clicked = "text-purple-400 font-bold";
-
+  console.log(router);
   return (
     <nav className="pt-10 pb-5 space-x-3">
       {navLinks.map((el) => (
@@ -27,7 +27,7 @@ export default function NavBar() {
           hover:text-indigo-400 
           hover:font-semibold
           hover:ease-in-out duration-300
-          ${router.asPath == el.link ? clicked : ""}
+          ${router.pathname == el.route ? clicked : ""}
           `}
         >
           {el.title}
