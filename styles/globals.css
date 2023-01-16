@@ -8,14 +8,14 @@ body {
   min-height: 100vh;
 }
 
-h3 {
-  @apply font-mono text-lg font-extrabold;
-}
-
 #wrapper {
   height: auto;
   min-height: 100vh;
   padding-bottom: 100px;
+}
+
+h3 {
+  @apply font-mono text-lg font-extrabold;
 }
 
 footer {
@@ -30,6 +30,10 @@ footer > *,
 footer > * > * {
   margin: auto;
   padding: 2px;
+}
+
+.link {
+  @apply cursor-pointer hover:underline hover:underline-offset-4 hover:text-blue-600;
 }
 
 .link-box > a {

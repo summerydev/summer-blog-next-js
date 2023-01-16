@@ -25,12 +25,12 @@ export default function Profile() {
         <br />
         <div className={`space-y-5`}>
           <BorderRadiusBox title={"Profile"} width={`w-fit`} height={`h-fit`}>
-            <div>Summer.</div>
+            <div>🧑‍💻 Summer</div>
             <div>
               📮{" "}
               <span
                 onClick={copy}
-                className={`cursor-pointer hover:underline hover:underline-offset-4 hover:text-blue-600`}
+                className={``}
               >
                 {email}
               </span>
