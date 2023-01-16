@@ -17,13 +17,13 @@ export default function NavBar() {
   const clicked = "text-purple-400 font-bold";
 
   return (
-    <nav className="pt-10 pb-5">
+    <nav className="pt-10 pb-5 space-x-3">
       {navLinks.map((el) => (
         <Link
           href={el.link}
           key={el.title}
           id={el.link}
-          className={`px-3
+          className={`
           hover:text-indigo-400 
           hover:font-semibold
           hover:ease-in-out duration-300
@@ -38,7 +38,7 @@ export default function NavBar() {
           type="button"
           onClick={() => {
             setTheme(theme === "dark" ? "light" : "dark");
-            setThemeIcon(themeIcon === "🖤" ? "🤍" : "🖤"); 
+            setThemeIcon(themeIcon === "🖤" ? "🤍" : "🖤");
           }}
         >
           {themeIcon}
