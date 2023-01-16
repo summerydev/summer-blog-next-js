@@ -24,4 +24,6 @@ const stack = [
   { name: "nodejs", svg: "/stack/nodejs.svg" },
 ];
 
-export { metadata, social, stack };
+const tags = ["all", "react", "nextjs", "web", "vue", "javascript"];
+
+export { metadata, social, stack, tags };
