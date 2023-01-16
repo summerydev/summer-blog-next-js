@@ -28,13 +28,17 @@ export default function Posts({
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main>
+      <main className="space-y-3">
         <div className={`font-medium text-2xl dark:hover:text-white`}>
           💻 All Posts
         </div>
         <div className="space-x-4 pt-3 text-sm font-light">
           {tags.map((tag) => (
-            <Link className="hover:text-violet-500" key={tag} href={`/posts/tag/${tag}`}>
+            <Link
+              className="hover:text-violet-500"
+              key={tag}
+              href={`/posts/tag/${tag}`}
+            >
               {tag}
             </Link>
           ))}
