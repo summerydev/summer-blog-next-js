@@ -9,8 +9,10 @@ body {
 }
 
 #wrapper {
+  @apply max-w-screen-lg;
   height: auto;
   min-height: 100vh;
+  margin: 0 auto;
   padding-bottom: 100px;
 }
 
