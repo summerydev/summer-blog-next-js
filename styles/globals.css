@@ -87,6 +87,15 @@ footer > * > * {
   list-style: circle;
 }
 
+.mdxstyle ol {
+  padding-left: 30px;
+  list-style-position: outside;
+}
+
+.mdxstyle ol > li {
+  list-style: decimal;
+}
+
 .mdxstyle hr {
   height: 1px;
   background-color: #cacaca;
