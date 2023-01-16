@@ -10,10 +10,12 @@ const BorderRadiusBox = (props) => {
       border border-inherit 
       rounded-md
       bg-stone-200
+      dark:text-sky-900
       ${width} ${height}
       `}
     >
-      {props.children}
+      <h3>{props.title}</h3>
+      <div className="text-black">{props.children}</div>
     </div>
   );
 };
