@@ -27,7 +27,7 @@ export default function Home({
         <div className={`font-medium text-2xl dark:text-gray-200 py-3 `}>
           🧑‍💻 Recents Posts
         </div>
-        <PostList posts={posts} />
+        <PostList tag={"all"} posts={posts} />
       </main>
     </>
   );
