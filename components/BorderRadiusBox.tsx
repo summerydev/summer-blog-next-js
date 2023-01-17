@@ -14,7 +14,7 @@ const BorderRadiusBox = (props) => {
       ${width} ${height}
       `}
     >
-      <h3>{props.title}</h3>
+      <h3 className="dark:text-sky-800">{props.title}</h3>
       <div className="text-black">{props.children}</div>
     </div>
   );
