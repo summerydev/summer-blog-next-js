@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 body {
-  @apply container bg-neutral-100 dark:bg-slate-800 text-sky-900 dark:text-slate-300 dark:transition-all;
+  @apply container bg-neutral-100 dark:bg-slate-800 dark:text-slate-300 dark:transition-all;
   height: auto;
   min-height: 100vh;
 }
@@ -14,6 +14,10 @@ body {
   min-height: 100vh;
   margin: 0 auto;
   padding-bottom: 100px;
+}
+
+header, nav, h1, h2, h3, h4, .title {
+  @apply text-sky-900 dark:text-white;
 }
 
 h3 {

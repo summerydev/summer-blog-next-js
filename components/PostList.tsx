@@ -20,7 +20,7 @@ export default function PostLists({ posts }) {
               hover:dark:bg-gray-600
             `}
             >
-              <div className={`font-medium text-2xl dark:hover:text-white`}>
+              <div className={`title font-medium text-2xl dark:hover:text-white`}>
                 {post.title}
               </div>
               <div
