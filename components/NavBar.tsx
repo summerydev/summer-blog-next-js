@@ -12,7 +12,7 @@ export default function NavBar() {
 
   useEffect(() => {
     theme == "light" ? setThemeIcon("🖤") : setThemeIcon("🤍");
-  }, []);
+  }, [theme]);
 
   const clicked = "text-purple-400 font-bold";
   
@@ -38,7 +38,6 @@ export default function NavBar() {
           type="button"
           onClick={() => {
             setTheme(theme === "dark" ? "light" : "dark");
-            setThemeIcon(themeIcon === "🖤" ? "🤍" : "🖤");
           }}
         >
           {themeIcon}
