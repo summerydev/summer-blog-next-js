@@ -31,13 +31,13 @@ export default function Posts({
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className="space-y-3">
-        <div className={`font-medium text-2xl dark:hover:text-white`}>
+        <div className={`font-medium text-2xl dark:text-gray-200`}>
           💻 All Posts
         </div>
         <div className="space-x-4 pt-3 text-sm font-light py-3">
           {tags.map((tag) => (
             <Link
-              className="hover:text-violet-500"
+              className="hover:text-violet-400"
               key={tag}
               href={`/posts/tag/${tag}`}
             >

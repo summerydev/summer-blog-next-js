@@ -17,7 +17,7 @@ body {
 }
 
 header, nav, h1, h2, h3, h4, .title {
-  @apply text-sky-900;
+  @apply text-sky-900 dark:text-white;
 }
 
 h3 {
