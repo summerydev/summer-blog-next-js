@@ -1,8 +1,17 @@
 import Link from "next/link";
 
-export default function PostLists({ posts }) {
+export default function PostLists({ posts, tag }) {
   if (posts.length <= 0) {
-    return <div className="p-10 text-center">👀 등록된 포스트가 없어요</div>;
+    return (
+      <div className="p-10 text-center space-y-10">
+        <h1 className="text-3xl">👀</h1>
+        <span className="tags">{tag}</span>
+        <span>에 등록된 포스트가 없어요</span>
+        <div>
+          <Link className="link" href={"/posts/tag/all"}>← 목록으로 돌아가기</Link>
+        </div>
+      </div>
+    );
   } else {
     return (
       <div>
@@ -20,7 +29,9 @@ export default function PostLists({ posts }) {
               hover:dark:bg-gray-600
             `}
             >
-              <div className={`title font-medium text-2xl dark:hover:text-white`}>
+              <div
+                className={`title font-medium text-2xl dark:hover:text-white`}
+              >
                 {post.title}
               </div>
               <div

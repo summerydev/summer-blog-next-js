@@ -46,6 +46,7 @@ export default function Posts({
           ))}
         </div>
         <PostList
+          tag={pathName}
           posts={posts.filter((post) => {
             if (pathName == "all") {
               return post;
