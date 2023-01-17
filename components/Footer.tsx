@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { social } from "../data/metadata";
+import { social } from "../data/data";
 export default function Footer() {
   return (
     <footer>

@@ -1,5 +1,5 @@
 import Head from "next/head";
-import { metadata } from "../data/metadata";
+import { metadata } from "../data/data";
 
 const Container = (props) => {
   const meta = {

@@ -1,7 +1,7 @@
 import BorderRadiusBox from "components/BorderRadiusBox";
 import Container from "components/Container";
 import Image from "next/image";
-import { stack } from "data/metadata";
+import { stack } from "data/data";
 
 export default function Profile() {
   const customMeta = {
