@@ -14,7 +14,7 @@ export default function NavBar() {
     theme == "light" ? setThemeIcon("🖤") : setThemeIcon("🤍");
   }, [theme]);
 
-  const clicked = "text-purple-400 font-bold";
+  const clicked = "text-indigo-400 font-bold";
   
   return (
     <nav className="pt-10 pb-5 space-x-3">
