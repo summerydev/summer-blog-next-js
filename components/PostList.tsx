@@ -35,7 +35,7 @@ export default function PostLists({ posts, tag }) {
                 {post.title}
               </div>
               <div
-                className={`font-light pl-1 text-gray-600 dark:text-gray-300`}
+                className={`font-light pl-1`}
               >
                 {post.description}
               </div>
