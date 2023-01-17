@@ -1,7 +1,7 @@
 import { allPosts } from "contentlayer/generated";
 import { InferGetStaticPropsType } from "next";
 import Head from "next/head";
-import { metadata, tags } from "../../../data/metadata";
+import { metadata, tags } from "../../../data/data";
 import PostList from "../../../components/PostList";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -20,6 +20,8 @@ export default function Posts({
   const router = useRouter();
   pathName = router.asPath.split("/")[3];
 
+  const clicked = "text-purple-400 font-bold";
+
   return (
     <>
       <Head>
@@ -32,7 +34,7 @@ export default function Posts({
         <div className={`font-medium text-2xl dark:hover:text-white`}>
           💻 All Posts
         </div>
-        <div className="space-x-4 pt-3 text-sm font-light">
+        <div className="space-x-4 pt-3 text-sm font-light py-3">
           {tags.map((tag) => (
             <Link
               className="hover:text-violet-500"

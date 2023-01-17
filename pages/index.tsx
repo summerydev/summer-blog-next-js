@@ -2,7 +2,7 @@ import { Inter } from "@next/font/google";
 import { allPosts } from "contentlayer/generated";
 import { InferGetStaticPropsType } from "next";
 import Head from "next/head";
-import { metadata } from "../data/metadata";
+import { metadata } from "../data/data";
 import PostList from "../components/PostList";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -24,7 +24,7 @@ export default function Home({
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className="space-y-3">
-        <div className={`font-medium text-2xl dark:hover:text-white`}>
+        <div className={`font-medium text-2xl dark:hover:text-white py-3`}>
           🧑‍💻 Recents Posts
         </div>
         <PostList posts={posts} />
