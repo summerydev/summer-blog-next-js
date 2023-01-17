@@ -16,7 +16,13 @@ body {
   padding-bottom: 100px;
 }
 
-header, nav, h1, h2, h3, h4, .title {
+header,
+nav,
+h1,
+h2,
+h3,
+h4,
+.title {
   @apply text-sky-900 dark:text-white;
 }
 
@@ -36,6 +42,14 @@ footer > *,
 footer > * > * {
   margin: auto;
   padding: 2px;
+}
+
+.menuLink:hover {
+  @apply text-indigo-300 font-semibold ease-in-out duration-300;
+}
+
+.clicked {
+  @apply text-indigo-300 font-bold;
 }
 
 .link {

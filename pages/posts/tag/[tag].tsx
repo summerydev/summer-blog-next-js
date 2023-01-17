@@ -20,8 +20,6 @@ export default function Posts({
   const router = useRouter();
   pathName = router.asPath.split("/")[3];
 
-  const clicked = "text-purple-400 font-bold";
-
   return (
     <>
       <Head>
@@ -37,7 +35,9 @@ export default function Posts({
         <div className="space-x-4 pt-3 text-sm font-light py-3">
           {tags.map((tag) => (
             <Link
-              className="hover:text-violet-400"
+              className={`menuLink ${
+                pathName == tag ? "clicked" : ""
+              }`}
               key={tag}
               href={`/posts/tag/${tag}`}
             >
@@ -46,6 +46,7 @@ export default function Posts({
           ))}
         </div>
         <PostList
+          tag={pathName}
           posts={posts.filter((post) => {
             if (pathName == "all") {
               return post;
