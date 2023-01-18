@@ -5,13 +5,16 @@ const BorderRadiusBox = (props) => {
   return (
     <div
       className={`
+      grow
+      m-2
       px-4 py-4 
       space-y-2
       border border-inherit 
       rounded-md
       bg-stone-200
       dark:text-sky-900
-      ${width} ${height}
+      min-w-fit 
+      ${height}
       `}
     >
       <h3 className="dark:text-sky-800">{props.title}</h3>

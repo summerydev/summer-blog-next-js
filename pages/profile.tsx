@@ -24,7 +24,6 @@ export default function Profile() {
         borderRadius: "10px",
       },
     });
-
   return (
     <>
       <div>
@@ -36,8 +35,8 @@ export default function Profile() {
           🚧 개발중 🚜
         </div>
         <br />
-        <div className={`space-y-5`}>
-          <BorderRadiusBox title={"Profile"} width={`w-fit`} height={`h-fit`}>
+        <div className={`flex flex-row flex-wrap`}>
+          <BorderRadiusBox title={"Profile"} height={`h-fit`}>
             <div>🧑‍💻 Summer</div>
             <div>
               📮{" "}
@@ -48,20 +47,18 @@ export default function Profile() {
           </BorderRadiusBox>
           <BorderRadiusBox
             title={"Skill Stack"}
-            width={`w-fit`}
             height={`h-fit`}
           >
-            <div className={`space-x-2`}>
+            <img src="https://github-readme-stats.vercel.app/api/top-langs/?username=summerydev&theme=dracula&exclude_repo=Computer-Science-Engineering&layout=compact&langs_count=10" />
+            <div>
               {stack.map((el) => (
-                <div key={el.name} className={`flex flex-row m-0`}>
-                  <span>
-                    <Image
-                      src={el.svg}
-                      alt={el.name}
-                      width={`20`}
-                      height={`20`}
-                    ></Image>
-                  </span>
+                <div key={el.name} className={`flex flex-row`}>
+                  <Image
+                    src={el.svg}
+                    alt={el.name}
+                    width={`20`}
+                    height={`20`}
+                  ></Image>
                   <span className="ml-1 text-gray-800">{el.name}</span>
                 </div>
               ))}
