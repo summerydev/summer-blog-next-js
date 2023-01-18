@@ -2,6 +2,7 @@ import BorderRadiusBox from "components/BorderRadiusBox";
 import Container from "components/Container";
 import Image from "next/image";
 import { stack } from "data/data";
+import toast, { Toaster } from "react-hot-toast";
 
 export default function Profile() {
   const customMeta = {
@@ -13,10 +14,22 @@ export default function Profile() {
 
   const copy = () => {
     window.navigator.clipboard.writeText(email);
+    notify();
   };
+
+  const notify = () =>
+    toast("메일이 복사되었어요!", {
+      icon: "📮",
+      style: {
+        borderRadius: "10px",
+      },
+    });
 
   return (
     <>
+      <div>
+        <Toaster />
+      </div>
       <Container customMeta={customMeta}>
         <br />
         <div className={`text-center font-mono text-5xl font-extrabold`}>
@@ -28,10 +41,7 @@ export default function Profile() {
             <div>🧑‍💻 Summer</div>
             <div>
               📮{" "}
-              <span
-                onClick={copy}
-                className={``}
-              >
+              <span onClick={copy} className={`link`}>
                 {email}
               </span>
             </div>
