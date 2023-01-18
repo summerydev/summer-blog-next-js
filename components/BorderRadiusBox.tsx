@@ -5,6 +5,7 @@ const BorderRadiusBox = (props) => {
   return (
     <div
       className={`
+      grow
       m-2
       px-4 py-4 
       space-y-2
