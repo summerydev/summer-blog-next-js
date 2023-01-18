@@ -24,7 +24,6 @@ export default function Profile() {
         borderRadius: "10px",
       },
     });
-
   return (
     <>
       <div>
@@ -51,17 +50,16 @@ export default function Profile() {
             width={`w-fit`}
             height={`h-fit`}
           >
-            <div className={`space-x-2`}>
+            <img src="https://github-readme-stats.vercel.app/api/top-langs/?username=summerydev&theme=dracula&exclude_repo=Computer-Science-Engineering&layout=compact&langs_count=10" />
+            <div>
               {stack.map((el) => (
-                <div key={el.name} className={`flex flex-row m-0`}>
-                  <span>
-                    <Image
-                      src={el.svg}
-                      alt={el.name}
-                      width={`20`}
-                      height={`20`}
-                    ></Image>
-                  </span>
+                <div key={el.name} className={`flex flex-row`}>
+                  <Image
+                    src={el.svg}
+                    alt={el.name}
+                    width={`20`}
+                    height={`20`}
+                  ></Image>
                   <span className="ml-1 text-gray-800">{el.name}</span>
                 </div>
               ))}

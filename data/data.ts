@@ -20,6 +20,7 @@ const social = [
 const stack = [
   { name: "javascript", svg: "/stack/javascript.svg" },
   { name: "typescript", svg: "/stack/typescript.svg" },
+  { name: "react", svg: "/stack/react.png" },
   { name: "vuejs", svg: "/stack/vuejs.svg" },
   { name: "nodejs", svg: "/stack/nodejs.svg" },
 ];
