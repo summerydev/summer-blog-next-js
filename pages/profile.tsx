@@ -35,8 +35,8 @@ export default function Profile() {
           🚧 개발중 🚜
         </div>
         <br />
-        <div className={`space-y-5`}>
-          <BorderRadiusBox title={"Profile"} width={`w-fit`} height={`h-fit`}>
+        <div className={`flex flex-row flex-wrap`}>
+          <BorderRadiusBox title={"Profile"} height={`h-fit`}>
             <div>🧑‍💻 Summer</div>
             <div>
               📮{" "}
@@ -47,7 +47,6 @@ export default function Profile() {
           </BorderRadiusBox>
           <BorderRadiusBox
             title={"Skill Stack"}
-            width={`w-fit`}
             height={`h-fit`}
           >
             <img src="https://github-readme-stats.vercel.app/api/top-langs/?username=summerydev&theme=dracula&exclude_repo=Computer-Science-Engineering&layout=compact&langs_count=10" />
