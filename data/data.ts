@@ -31,4 +31,21 @@ const stack = [
 
 const tags = ["all", "react", "nextjs", "web", "vue", "javascript"];
 
-export { metadata, social, stack, tags };
+const projects = [
+  {
+    name: "summer-blog",
+    repo: "https://github.com/summerydev/summer-blog-next-js",
+    demo: "https://summer-blog.vercel.app/",
+    stack: ["typescript", "react", "nextjs"],
+    thumbNail: "",
+  },
+  {
+    name: "perfume-community",
+    repo: "https://github.com/summerydev/perfume-community",
+    demo: "",
+    stack: ["javascript", "vuejs", "nodejs"],
+    thumbNail: "",
+  },
+];
+
+export { metadata, social, stack, tags, projects };

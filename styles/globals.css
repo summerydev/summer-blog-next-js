@@ -65,6 +65,10 @@ footer > * > * {
   margin: 0 3px;
 }
 
+.project-thumbNail {
+  object-fit: cover;
+}
+
 .mdxstyle > * {
   margin: 20px 0;
 }
