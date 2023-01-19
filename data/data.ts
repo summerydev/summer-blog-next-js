@@ -9,11 +9,15 @@ const social = [
     name: "github",
     url: "https://github.com/summerydev",
     svg: "/social/github.svg",
+    icon: "🚀",
+    id: "github.com/summerydev",
   },
   {
     name: "instagram",
     url: "https://www.instagram.com/in_meeeeee",
     svg: "/social/instagram.svg",
+    icon: "📸",
+    id: "@in_meeeeee",
   },
 ];
 

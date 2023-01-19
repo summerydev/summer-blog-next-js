@@ -1,5 +1,4 @@
 const BorderRadiusBox = (props) => {
-  const width: string = props.width;
   const height: string = props.height;
 
   return (
@@ -18,7 +17,7 @@ const BorderRadiusBox = (props) => {
       `}
     >
       <h3 className="dark:text-sky-800">{props.title}</h3>
-      <div className="text-black">{props.children}</div>
+      <div className="text-black space-y-2 font-mono">{props.children}</div>
     </div>
   );
 };
