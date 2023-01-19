@@ -56,7 +56,7 @@ export default function Profile() {
               className={`px-4 py-4 space-y-2 border border-inherit rounded-md 
               bg-stone-300 text-gray-600 text-sm font-mono`}
             >
-              I'm Frontend Engineer,
+              I&#39;m Frontend Engineer,
               <br />
               love to travel
               <br />
