@@ -5,7 +5,7 @@ description: vue set 메소드와 nextTick을 사용해 봤어요
 tag1: vue
 ---
 
-# $set
+## $set
 
 - `$set` : 반응형으로 선언된 값을 업데이트
 - vue에서 data 옵션을 통해 선언한 데이터는 vue가 변화를 추적 `$set` 없이 값 갱신 가능
@@ -13,7 +13,7 @@ tag1: vue
 - `Vue.set` is a tool that allows us to add a new property to an already reactive object, and makes sure that this new property is ALSO reactive.
 
 <br />
-## 사용 방법
+### 사용 방법
 ```jsx
 // 배열
 Vue.set(arr, index, value);
@@ -27,8 +27,8 @@ this.$delete(obj, key);
 ```
 
 <br />
-## 기존 데이터에 새로운 속성 추가하기
-### 속성 추가
+### 기존 데이터에 새로운 속성 추가하기
+#### 속성 추가
 
 ```jsx
 <script>
@@ -55,7 +55,7 @@ mounted에서 객체 속성 추가하더라도 변화 감지하지 못함
 ![221121-1.png](/img/221121/221121-1.png)
 
 <br />
-### `$set` 을 사용해 추가
+#### `$set` 을 사용해 추가
 
 ```jsx
 <template>
@@ -86,8 +86,8 @@ export default {
 데이터 변화를 감지해 템플릿에도 데이터가 표시됨
 
 <br />
-## 기존 데이터에 속성 삭제
-### 속성 삭제
+### 기존 데이터에 속성 삭제
+#### 속성 삭제
 
 ```jsx
 <template>
@@ -122,7 +122,7 @@ vue data에서는 사라졌지만 템플릿에서는 변화 감지 못함
 → text 삭제 x
 
 <br />
-### `$delete` 사용해 삭제
+#### `$delete` 사용해 삭제
 
 ```jsx
 <template>
@@ -163,13 +163,13 @@ export default {
 
 <br />
 ---
-# `$nextTick()`
+## `$nextTick()`
 
 - 데이터 변경 직후 nextTick 사용 → Dom 업데이트 완료 후 렌더링
 - $set() : 데이터속성 추가, 삭제를 vue가 감지하지 못했을 때 알려주는 역할
 - $nextTick() : 데이터 변화 후 Dom 조작 시에 사용
 <br />
-### 기존 코드
+#### 기존 코드
 
 ```html
 {{ memo.title }} {{ memo.writer }}
@@ -196,7 +196,7 @@ export default {
 - prop이 변경될 경우 데이터가 정상적으로 바인딩 되지 않아 Dom이 업데이트 되지 않음
 
 <br />
-### 변경
+#### 변경
 
 ```jsx
 import { Viewer } from "@toast-ui/vue-editor";
@@ -223,7 +223,7 @@ export default {
 - toast ui는 v-bind가 아닌 ref로 데이터를 조작하기 때문에, props로 받아온 값이 변경될 경우, Dom에 반영되지 않는 경우가 발생
 
 <br />
-### 최종 코드
+#### 최종 코드
 
 ```jsx
 import { Viewer } from "@toast-ui/vue-editor";
@@ -254,7 +254,7 @@ export default {
 
 
 <br />
-# 참고 자료 링크
+## 참고 자료 링크
 
 [Vue 인스턴스의 속성과 메소드 ($attrs, $set, $delete, $nextTick, $emit, $forceUpdate...)](https://y-chyachya.tistory.com/11)
 

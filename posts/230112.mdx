@@ -6,7 +6,7 @@ tag1: react
 tag2: nextjs
 ---
 
-# Tailwind CSS란
+## Tailwind CSS란
 - CSS 프레임워크
 - Utility-First : 미리 세팅된 유틸리티 클래스를 활용하는 방식
 - HTML코드 내에서 스타일링 가능
@@ -17,7 +17,7 @@ tag2: nextjs
 </button>
 ```
 <br />
-# Tailwind CSS 장단점
+## Tailwind CSS 장단점
 - HTML과 CSS 파일 별도 구분 필요 없음
 - 클래스명 고민 필요 없음
 - 쉽게 커스텀 가능, 특히 다크모드 구현 편함
@@ -26,19 +26,19 @@ tag2: nextjs
 <br />
 ---
 
-# Tailwind CSS 사용하기
-## 설치
+## Tailwind CSS 사용하기
+### 설치
 
 ```jsx
 npm install tailwindcss
 ```
 <br />
-## 설정 파일 생성
+### 설정 파일 생성
 ```jsx
 npm tailwind init
 ```
 <br />
-## Tailwind CSS 적용
+### Tailwind CSS 적용
 ```jsx
 // 메인 css 파일 (ex. globals.css)
 @tailwind base;
@@ -47,7 +47,7 @@ npm tailwind init
 ```
 빌드 시에 `@tailwind` 디렉티브가 CSS코드로 변환
 <br />
-## 최적화
+### 최적화
 - 파일 크기 최소화 하기 위한 `purge` 옵션
 - 프로덕션 빌드 시 미설정 클래스는 모두 제거
 ```jsx
@@ -58,7 +58,7 @@ module.exports = {
 }
 ```
 <br />
-## 기본 설정 커스텀 예시
+### 기본 설정 커스텀 예시
 기본 스타일 값 오버라이딩 하지 않고 설정
 ```jsx
 // tailwind.config.js
@@ -78,8 +78,8 @@ module.exports = {
 };
 ```
 <br />
-# NextJS에 tailwind css 적용하기
-## darkMode 설정 추가
+## NextJS에 tailwind css 적용하기
+### darkMode 설정 추가
 ```jsx
 // tailwind.config.js
 module.exports = {
@@ -95,7 +95,7 @@ module.exports = {
 };
 ```
 <br />
-## html 마크업 설정
+### html 마크업 설정
 `<body>` 태그의 `className`에서 `dark:`설정
 ```jsx
 import Document, { Html, Head, Main, NextScript } from "next/document";
@@ -119,15 +119,15 @@ class MyDocument extends Document {
 export default MyDocument;
 ```
 <br />
-## next-themes 패키지 사용
+### next-themes 패키지 사용
 \_document파일의 html 태그의 className을 light, dark로 바꿔주는 패키지
 <br />
-### 설치
+#### 설치
 ```jsx
 npm install next-themes
 ```
 <br />
-### 적용
+#### 적용
 - \_app.tsx에서 next-themes의 ThemeProvider 임포트
 - ThemeProvider의 attribute를 class로 지정
 - 전체 코드를 `<ThemeProvider>` 로 감싸기
@@ -149,7 +149,7 @@ function MyApp({ Component, pageProps }: AppProps) {
 export default MyApp;
 ```
 <br />
-## 다크모드 전환 버튼 생성
+### 다크모드 전환 버튼 생성
 ```jsx
 // Navbar.tsx
 import Link from "next/link";
@@ -177,11 +177,11 @@ const NavBar = () => {
 export default NavBar;
 ```
 ---
-# 적용
+## 적용
 [https://github.com/summerydev/summer-blog-next-js](https://github.com/summerydev/summer-blog-next-js)
 
 ---
 
-# 참고
+## 참고
 [Tailwind공식 사이트](https://tailwindcss.com/)  
 [참고 블로그](https://wonny.space/writing/dev/hello-tailwind-css)
