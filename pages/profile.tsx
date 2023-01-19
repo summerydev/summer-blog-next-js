@@ -60,7 +60,7 @@ export default function Profile() {
               <br />
               love to travel
               <br />
-              🇰🇷🇯🇵🇸🇬🇬🇧🇪🇸🇵🇭🇹🇼🇺🇸
+              🇰🇷🇯🇵🇸🇬🇬🇧🇫🇷🇮🇹🇻🇦🇪🇸🇵🇭🇹🇼🇺🇸🇻🇳
               <br />
               and love JJ
             </div>
