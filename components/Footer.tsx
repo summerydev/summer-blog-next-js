@@ -5,7 +5,7 @@ export default function Footer() {
     <footer>
       <div className="link-box">
         {social.map((el) => (
-          <a target="_blank" href={el.url} key={el.name}>
+          <a target="_blank" rel="noreferrer" href={el.url} key={el.name}>
             <Image
               src={el.svg}
               alt={el.name}
