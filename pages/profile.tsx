@@ -1,8 +1,9 @@
 import BorderRadiusBox from "components/BorderRadiusBox";
 import Container from "components/Container";
 import Image from "next/image";
-import { stack } from "data/data";
+import { stack, social } from "data/data";
 import toast, { Toaster } from "react-hot-toast";
+import Link from "next/link";
 
 export default function Profile() {
   const customMeta = {
@@ -44,11 +45,28 @@ export default function Profile() {
                 {email}
               </span>
             </div>
+            {social.map((el) => (
+              <div>
+                {el.icon}{" "}
+                <a
+                  target="_blank"
+                  href={el.url}
+                  key={el.name}
+                  className={`link`}
+                >
+                  {el.id}
+                </a>
+              </div>
+            ))}
+            <div
+              className={`px-4 py-4 space-y-2 border border-inherit rounded-md 
+              bg-stone-300 text-gray-600 text-sm font-mono`}
+            >
+              love to travel<br />
+              love JJ
+            </div>
           </BorderRadiusBox>
-          <BorderRadiusBox
-            title={"Skill Stack"}
-            height={`h-fit`}
-          >
+          <BorderRadiusBox title={"Skill Stack"} height={`h-fit`}>
             <img src="https://github-readme-stats.vercel.app/api/top-langs/?username=summerydev&theme=dracula&exclude_repo=Computer-Science-Engineering&layout=compact&langs_count=10" />
             <div>
               {stack.map((el) => (
