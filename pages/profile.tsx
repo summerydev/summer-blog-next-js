@@ -3,7 +3,6 @@ import Container from "components/Container";
 import Image from "next/image";
 import { stack, social } from "data/data";
 import toast, { Toaster } from "react-hot-toast";
-import Link from "next/link";
 
 export default function Profile() {
   const customMeta = {
@@ -31,12 +30,7 @@ export default function Profile() {
         <Toaster />
       </div>
       <Container customMeta={customMeta}>
-        <br />
-        <div className={`text-center font-mono text-5xl font-extrabold`}>
-          🚧 개발중 🚜
-        </div>
-        <br />
-        <div className={`flex flex-row flex-wrap`}>
+        <div className={`flex flex-row flex-wrap mt-5`}>
           <BorderRadiusBox title={"Profile"} height={`h-fit`}>
             <div>🧑‍💻 Summer</div>
             <div>
@@ -62,9 +56,13 @@ export default function Profile() {
               className={`px-4 py-4 space-y-2 border border-inherit rounded-md 
               bg-stone-300 text-gray-600 text-sm font-mono`}
             >
+              I'm Frontend Engineer,
+              <br />
               love to travel
               <br />
-              love JJ
+              🇰🇷🇯🇵🇸🇬🇬🇧🇪🇸🇵🇭🇹🇼🇺🇸
+              <br />
+              and love JJ
             </div>
           </BorderRadiusBox>
           <BorderRadiusBox title={"Skill Stack"} height={`h-fit`}>
