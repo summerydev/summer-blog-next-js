@@ -51,7 +51,7 @@ export default function Profile() {
                 <a
                   target="_blank"
                   href={el.url}
-                  rel="author"
+                  rel="noreferrer"
                   className={`link`}
                 >
                   {el.id}
