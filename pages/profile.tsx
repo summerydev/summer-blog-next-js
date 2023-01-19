@@ -46,12 +46,11 @@ export default function Profile() {
               </span>
             </div>
             {social.map((el) => (
-              <div>
+              <div key={el.name}>
                 {el.icon}{" "}
                 <a
                   target="_blank"
                   href={el.url}
-                  key={el.name}
                   className={`link`}
                 >
                   {el.id}
@@ -62,7 +61,8 @@ export default function Profile() {
               className={`px-4 py-4 space-y-2 border border-inherit rounded-md 
               bg-stone-300 text-gray-600 text-sm font-mono`}
             >
-              love to travel<br />
+              love to travel
+              <br />
               love JJ
             </div>
           </BorderRadiusBox>
