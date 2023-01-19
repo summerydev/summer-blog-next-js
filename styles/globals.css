@@ -36,6 +36,7 @@ footer {
   transform: translateY(-100%);
   text-align: center;
   margin: auto;
+  padding-top: 50px;
 }
 
 footer > *,
