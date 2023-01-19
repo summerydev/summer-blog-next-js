@@ -16,7 +16,7 @@ export default function Footer() {
           </Link>
         ))}
       </div>
-      <div className={`text-gray-500`}>⋆ ₊ ﾟ 𝒮𝓊𝓂𝓂ℯ𝓇 ☽ * ₊ ⋆</div>
+      <div>⋆ ₊ ⋆ 𝒮𝓊𝓂𝓂ℯ𝓇 ☽ * ₊ ⋆</div>
     </footer>
   );
 }
