@@ -51,6 +51,7 @@ export default function Profile() {
                 <a
                   target="_blank"
                   href={el.url}
+                  rel="author"
                   className={`link`}
                 >
                   {el.id}
